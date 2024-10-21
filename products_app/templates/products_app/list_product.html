@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="bg-white py-8">
+
+    <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
+
+        <nav id="store" class="w-full z-30 top-0 px-6 py-1">
+            <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
+
+                <a class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl "
+                    href="#">
+                    Store
+                </a>
+
+                <div class="flex items-center" id="store-nav-content">
+
+                    <a class="pl-3 inline-block no-underline hover:text-black" href="#">
+                        <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24">
+                            <path d="M7 11H17V13H7zM4 7H20V9H4zM10 15H14V17H10z" />
+                        </svg>
+                    </a>
+
+                    <a class="pl-3 inline-block no-underline hover:text-black" href="#">
+                        <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24">
+                            <path
+                                d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10 c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z" />
+                        </svg>
+                    </a>
+
+                </div>
+            </div>
+        </nav>
+
+        {% for product in products %}
+        <a href="#" class="group relative block overflow-hidden m-4 ">
+            {% if product.photo %}
+            <img class="hover:grow hover:shadow-lg h-64 w-64 object-cover transition duration-500 group-hover:scale-105 sm:h-72"
+                alt="{{product.name}}" src="{{product.photo.url}}">
+            {% endif %}
+
+            <div class="relative border border-gray-100 bg-white p-6">
+                <span class="whitespace-nowrap bg-yellow-400 px-3 py-1.5 text-xs font-medium"> New </span>
+
+                <h3 class="mt-4 text-lg font-medium text-gray-900">{{product.name}}</h3>
+
+                <p class="mt-1.5 text-sm text-gray-700">{{product.price}}</p>
+
+                <form action="{% url "create_order" %}" method="POST" class="mt-4">
+                    {% csrf_token %}
+                    <input type="hidden" name="product" value="{{product.id}}">
+                    <button
+                        class="block w-full rounded bg-yellow-400 p-4 text-sm font-medium transition hover:scale-105">Agregar
+                        al pedido
+                    </button>
+                </form>
+            </div>
+        </a>
+        {% endfor %}
+
+    </div>
+
+</section>
+{% endblock content %}
